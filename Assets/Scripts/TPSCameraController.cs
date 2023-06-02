@@ -8,6 +8,7 @@ public class TPSCameraController : MonoBehaviour
 {
     [SerializeField] Transform cameraRoot1;
     [SerializeField] Transform cameraRoot2;
+    [SerializeField] Transform AimTarget;
     [SerializeField] float cameraSensitivity;
     [SerializeField] float lookDistance;
     [SerializeField] private CinemachineVirtualCamera incingScene;
@@ -28,13 +29,19 @@ public class TPSCameraController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 lookPoint = Camera.main.transform.position + Camera.main.transform.forward * lookDistance;
-        lookPoint.y = 0f; // 캐릭터가 바라보고 있는 곳
-        transform.LookAt(lookPoint);
+        Rotate();
     }
     private void LateUpdate()
     {
         Look();
+    }
+
+    private void Rotate()
+    {
+        Vector3 lookPoint = Camera.main.transform.position + Camera.main.transform.forward * lookDistance;
+        AimTarget.position = lookPoint;     // 에임이 바라보고있는 곳
+        lookPoint.y = 0f; // 캐릭터가 바라보고 있는 곳
+        transform.LookAt(lookPoint);
     }
 
     private void Look()
